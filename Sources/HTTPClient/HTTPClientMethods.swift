@@ -130,14 +130,12 @@ extension HTTPClient {
         timeoutInterval: TimeInterval = 60
     ) async throws -> ResponseBody {
         try await send(
-            HTTPRequest(
-                .get,
-                path,
-                parameters: parameters,
-                headers: headers,
-                expecting: ResponseBody.self,
-                timeoutInterval: timeoutInterval
-            )
+            .get,
+            path,
+            parameters: parameters,
+            headers: headers,
+            expecting: ResponseBody.self,
+            timeoutInterval: timeoutInterval
         )
     }
 
