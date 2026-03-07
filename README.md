@@ -1,6 +1,6 @@
 # HTTPClient
 
-A modern, Swift-native HTTP client built with Swift Concurrency (async/await) and designed for iOS, macOS, watchOS, and tvOS.
+A Swift-native HTTP client built with Swift Concurrency (async/await).
 
 ## Features
 
