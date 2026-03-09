@@ -59,7 +59,7 @@ import Foundation
 /// ```
 ///
 /// - SeeAlso: ``HTTPRequest``, ``HTTPResponse``, ``HTTPMethod``, ``HTTPInterceptor``
-public final class HTTPClient {
+public final class HTTPClient: Sendable {
 
     private let session: URLSession
     private let baseURL: URL?
