@@ -76,6 +76,8 @@ public struct HTTPRequest: Sendable {
     /// Defaults to 60 seconds.
     public var timeoutInterval: TimeInterval
 
+    public var options: Options
+
     /// Creates a new HTTP request.
     ///
     /// - Parameters:
@@ -107,12 +109,19 @@ public struct HTTPRequest: Sendable {
         url: URL,
         headers: [String: String] = [:],
         body: Data? = nil,
-        timeoutInterval: TimeInterval = 60
+        timeoutInterval: TimeInterval = 60,
+        options: Options = []
     ) {
         self.method = method
         self.url = url
         self.headers = headers
         self.body = body
         self.timeoutInterval = timeoutInterval
+        self.options = options
+    }
+
+    public struct Options: OptionSet, Sendable {
+        public let rawValue: Int
+        public init(rawValue: Int) { self.rawValue = rawValue }
     }
 }
