@@ -111,9 +111,7 @@ public final class HTTPClient: Sendable {
 
         // Fold interceptors right-to-left so the first interceptor
         // in the array is the outermost (runs first).
-        let chain = interceptors.reversed().reduce(transport) {
-            next,
-            interceptor in
+        let chain = interceptors.reversed().reduce(transport) { next, interceptor in
             { request in
                 try await interceptor.intercept(request: request, next: next)
             }
@@ -121,9 +119,20 @@ public final class HTTPClient: Sendable {
 
         var resolved = request
         if let baseURL, resolved.url.host == nil {
-            resolved.url = baseURL.appendingPathComponent(
-                resolved.url.relativePath
-            )
+            var components = URLComponents(url: resolved.url, resolvingAgainstBaseURL: false)
+            let path = resolved.url.relativePath
+
+            var fullURL = baseURL.appendingPathComponent(path)
+
+            if let queryItems = components?.queryItems, !queryItems.isEmpty {
+                var fullComponents = URLComponents(url: fullURL, resolvingAgainstBaseURL: false)
+                fullComponents?.queryItems = queryItems
+                if let urlWithQuery = fullComponents?.url {
+                    fullURL = urlWithQuery
+                }
+            }
+
+            resolved.url = fullURL
         }
 
         return try await chain(resolved)
